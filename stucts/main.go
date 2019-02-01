@@ -68,6 +68,8 @@ func main() {
 	// We need to create a pointer reference for ryan4
 	ryan4Pointer := &ryan4
 	ryan4Pointer.updateName2("RyanS")
+	// You can shortcut the pointer assignment by just having the receiver
+	// be the pointer of the type we are calling it on
 	ryan4.print()
 }
 
@@ -84,3 +86,9 @@ func (p person2) updateName(newFirstName string) {
 func (pointerToPerson2 *person2) updateName2(newFirstName string) {
 	(*pointerToPerson2).firstName = newFirstName
 }
+
+// Go has two different data type...types
+// Pass by value - Value types
+// int, float, string, bool and structs
+// Pass by reference - Reference types
+// slices, maps, channels, points and functions as arguments
