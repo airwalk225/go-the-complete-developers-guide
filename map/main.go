@@ -24,7 +24,30 @@ func main() {
 	// Remove values from the map
 	delete(colors, "white")
 
-	fmt.Println(colors)
-	fmt.Println(colors2)
-	fmt.Println(colors3)
+	printMap(colors)
+	printMap(colors2)
+	printMap(colors3)
 }
+
+func printMap(c map[string]string) {
+	for color, hex := range c {
+		fmt.Printf("Hex code for %v is %v\n", color, hex)
+	}
+}
+
+/*
+	Why would you use a map over structs
+	Maps:
+		All keys must be the same type
+		All values must be the same type
+		Keys are indexed - we can iterate over them
+		Use to represent a collection of related properties
+		Don't need to know all the keys at compile time
+		Reference type!
+	Struct
+		Values can be a different type
+		Keys don't support indexing
+		You need to know all the different fields at compile time
+		Use ot represent a "thing" with a lot of different properties
+		Value type!!
+*/
