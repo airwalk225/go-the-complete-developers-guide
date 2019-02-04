@@ -7,6 +7,9 @@ import (
 	"os"
 )
 
+// Lets create a new writer struct
+type logWriter struct{}
+
 func main() {
 	resp, err := http.Get("http://google.com")
 
@@ -28,5 +31,19 @@ func main() {
 	// We can condense the output of the above to the terminal
 	// This works because the io.copy function uses the writer interface to connect
 	// to the os.stdout
-	io.Copy(os.Stdout, resp.Body)
+	// io.Copy(os.Stdout, resp.Body)
+
+	// Create a logWriter type
+	lw := logWriter{}
+
+	// Initiate the io.Copy and pass it the logWrite func
+	io.Copy(lw, resp.Body)
+}
+
+// Create a receiver function for the logWriter struct
+// This then enables it be part of the Write interface
+func (logWriter) Write(bs []byte) (int, error) {
+	fmt.Println(string(bs))
+	fmt.Println("Just wrote this amount of bytes", len(bs))
+	return len(bs), nil
 }
