@@ -43,8 +43,20 @@ func main() {
 	// But we also need to wait for each routine to fill the channel
 	// We do not really know how many channel messages to expect, so
 	// check how many links we need to wait for
-	for i := 0; i < len(links); i++ {
-		fmt.Println(<-c)
+	// for i := 0; i < len(links); i++ {
+	// 	fmt.Println(<-c)
+	// }
+
+	// Make an infinite loop
+	// for {
+	// 	go checkLink(<-c, c)
+	// }
+
+	// An infinite loop probably isn't that great, lets sow it down
+	// Loop through the range of values in the channel
+	// This syntax makes it easier to understand the looping of a channel
+	for l := range c {
+		go checkLink(l, c)
 	}
 }
 
@@ -52,8 +64,9 @@ func checkLink(link string, c chan string) {
 	_, err := http.Get(link)
 
 	if err != nil {
-		c <- link + " might be down"
+		fmt.Println(link, " might be down")
 	} else {
-		c <- link + " is up and running"
+		fmt.Println(link, " is up and running")
 	}
+	c <- link
 }
