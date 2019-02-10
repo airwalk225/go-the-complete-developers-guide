@@ -38,14 +38,22 @@ func main() {
 		// Requires multiple CPU's
 		go checkLink(l, c)
 	}
+
+	// We need to wait for each routine to pass information into the channel
+	// But we also need to wait for each routine to fill the channel
+	// We do not really know how many channel messages to expect, so
+	// check how many links we need to wait for
+	for i := 0; i < len(links); i++ {
+		fmt.Println(<-c)
+	}
 }
 
 func checkLink(link string, c chan string) {
 	_, err := http.Get(link)
 
 	if err != nil {
-		fmt.Println(link, "might be down")
+		c <- link + " might be down"
 	} else {
-		fmt.Println(link, "is up and running")
+		c <- link + " is up and running"
 	}
 }
