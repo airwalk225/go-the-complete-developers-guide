@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -68,5 +69,6 @@ func checkLink(link string, c chan string) {
 	} else {
 		fmt.Println(link, " is up and running")
 	}
+	time.Sleep(time.Second)
 	c <- link
 }
